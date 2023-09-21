@@ -2,8 +2,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: #F1F3F8;
-    background-color: #2E2B2B;
 }
 
 #map{
@@ -15,7 +13,7 @@ body {
     height: 300px;
     position: absolute;
     top: 23px;
-    left: 31px;
+    right: 31px;
 
 
 }
@@ -23,32 +21,46 @@ body {
 .search-bar {
     margin: 20px;
     padding: 10px;
-    height: 35px;
+    height: 30px;
+    font-size: large;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-.search-bar input {
+.search-bar input{
+    width: 80%;
+    height:30px;
+    top: 40px;
+    left: 55px;
+    font-family: 'Alike', 'Times New Roman', Times, serif;
+    font-size: 18px;
+    line-height: 37.62px;
+    letter-spacing: 0em;
+    text-align: left;
+    border: black;
+    padding: 0;
     border: none;
     outline: none;
-    width: 100%;
-    padding: 5px;
 }
 
+
+
 .line-under-search-bar {
-    border-bottom: 1px solid #2E2B2B;
-    margin-top: 5px;
+    border-bottom: 2px solid #2E2B2B;
+    margin-top: -3px;
 }
 
 .options {
     margin: 20px;
+    margin-top: 5px;
     display: none;
     align-items: center;
+    font-size: 15px;
 }
 
 .option {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     padding: 10px;
     background-color: white;
     border-radius: 10px;
@@ -67,15 +79,15 @@ body {
     position: relative;
     width: 30px;
     height: 22px;
-
     top: 5px;
     left: 85%;
     transform: translateY(-110%);
 }
 
 .bus-icon img{
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: 80%;
+    height: 80%;
     display: block;
     
 }
@@ -87,20 +99,6 @@ body {
     top: 2px;
 }
 
-.search-bar input{
-    width: 125px;
-    height:30px;
-    top: 40px;
-    left: 55px;
-    font-family: 'Alike', 'Times New Roman', Times, serif;
-    font-size: 25px;
-    line-height: 37.62px;
-    letter-spacing: 0em;
-    text-align: left;
-    border: black;
-    color: white;
-    padding: 0;
-}
 
 .location{
     opacity: 60%;
@@ -118,4 +116,14 @@ body {
 
 .leaflet-left {
     right: 50px;
+}
+
+
+.current img{
+    position: absolute;
+    border-radius: 100%;
+    cursor: pointer;
+    height: 3.5rem;
+    bottom: 10%;
+    right: 5%;
 }
