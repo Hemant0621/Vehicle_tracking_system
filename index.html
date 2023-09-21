@@ -47,9 +47,10 @@
             </div>
             <div class="option option2"><img src="recent_icon.png" alt="">Chadwick Falls</div>
             <div class="option option3"><img src="recent_icon.png" alt="">Manali</div>
-            <div class="option option4"><img src="recent_icon.png" alt="">South Himachal</div>
+            <div class="option option4" onclick="getlocation"><img src="recent_icon.png" alt="">South Himachal</div>
         </div>
     </div>
+    <div class="current" id="current"><img src="circle.png" alt=""></div>
 </body>
 <script>
     // Map initialization
@@ -65,6 +66,14 @@
     if (!navigator.geolocation) {
         console.log("Your browser doesn't support geolocation feature!");
     } else {
+        navigator.geolocation.getCurrentPosition(getPosition);
+    }
+
+    object = document.getElementById("current")
+
+    document.getElementById("current").onclick = function() {myFunction()};
+
+    function myFunction() {
         navigator.geolocation.getCurrentPosition(getPosition);
     }
 
@@ -101,7 +110,5 @@
         );
     }
 </script>
-
-
 
 </html>
