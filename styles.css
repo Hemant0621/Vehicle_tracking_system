@@ -12,7 +12,7 @@ body {
     width: 430px;
     height: 300px;
     position: absolute;
-    left: 3rem;
+    right: 3rem;
 
 
 }
@@ -131,4 +131,8 @@ body {
     height: 3.5rem;
     bottom: 10%;
     right: 5%;
+}
+
+.top-bar img, .bottom-bar img{
+    cursor: pointer;
 }
