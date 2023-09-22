@@ -34,20 +34,22 @@
 </head>
 
 <body>
-    <div id="map"></div>
+    <div id="map"></div> <!---map -->
+
+
     <div id="map-container" class="container">
         <div class="search-bar">
             <div class="top-bar">
-                <input class="input" type="text" placeholder="Start Location">
+                <input id="input-t" type="text" placeholder="Start Location">  <!--- start location-->
                 <div class="bus-icon">
-                    <img src="bus-icon.png" alt="Bus Icon">
+                    <img id="start" src="bus-icon.png" alt="Bus Icon">
                 </div>
             </div>
 
             <div class="bottom-bar">
-                <input class="input" type="text" placeholder="Destination Location">
+                <input id="input-b" type="text" placeholder="Start Location">
                 <div class="bus-icon">
-                    <img src="bus-icon.png" alt="Bus Icon">
+                    <img id="destination" src="bus-icon.png" alt="Bus Icon">
                 </div>
             </div>
 
@@ -82,24 +84,99 @@
     }
 
 
-
-
     document.getElementById("current").onclick = function () {
         navigator.geolocation.getCurrentPosition(getPosition);
-        myFunction
     };
 
-
-    document.getElementById("manali").onclick = function () {
-        console.log("clicked");
-        navigator.geolocation.getCurrentPosition(myFunction);
-    };
+    
 
 
-    function myFunction() {
-        goto([32.2432, 77.1892, 8])
+    let start;
+    let destination;
+    let i;
+    let a=0;
+    let s=0;
+
+    let data = {
+        "chamba district" : [32.554444,76.123889,20],
+        "Hamirpur District" : [31.633333, 76.516667,20]
     }
 
+    
+    document.getElementById("start").onclick = function () {
+        start = document.getElementById("input-t").value;
+        for(i=0;i<2;i++){
+            if(Object.keys(data)[i]==start){
+                s = data[start] ;
+                console.log("value of s is "  + s);
+                navigator.geolocation.getCurrentPosition(starting_point);
+            }
+        } 
+        
+        destination = document.getElementById("input-b").value;
+        for(i=0;i<2;i++){
+            if(Object.keys(data)[i]==destination){
+                a = data[destination] ;
+                console.log("value of a is "  + a);
+                navigator.geolocation.getCurrentPosition(destination_point);
+            }
+        } 
+        
+    }
+    
+    document.getElementById("destination").onclick = function () {
+        start = document.getElementById("input-t").value;
+        for(i=0;i<2;i++){
+            if(Object.keys(data)[i]==start){
+                s = data[start] ;
+                console.log("value of s is "  + s);
+                navigator.geolocation.getCurrentPosition(starting_point);
+            }
+        } 
+        
+        destination = document.getElementById("input-b").value;
+        console.log(destination);
+        for(i=0;i<2;i++){
+            if(Object.keys(data)[i]==destination){
+                a = data[destination] ;
+                console.log("value of a is "  + a);
+                navigator.geolocation.getCurrentPosition(destination_point);
+            }
+        } 
+
+    }
+
+    
+
+    // data set
+
+
+    document.getElementById("home").onclick = function () {
+        a =[31.1048, 77.1734, 20] ;
+        navigator.geolocation.getCurrentPosition(destination_point);
+    };
+    document.getElementById("chadwick").onclick = function () {
+        a =[31.1196, 77.1389, 20] ;
+        navigator.geolocation.getCurrentPosition(destination_point);
+    };
+    document.getElementById("manali").onclick = function () {
+        a =[32.2432, 77.1892, 20] ;
+        navigator.geolocation.getCurrentPosition(destination_point);
+    };
+    document.getElementById("south").onclick = function () {
+        a =[32.1024,  77.5619, 20] ;
+        navigator.geolocation.getCurrentPosition(destination_point);
+    };
+
+
+
+    function destination_point() {
+        goto(a)
+    }
+
+    function starting_point(){
+        dest(s);
+    }
     var marker, circle;
 
     var taxiIcon = L.icon({
@@ -110,54 +187,103 @@
     const cpos = [];
 
     function getPosition(position) {
-        // console.log(position)
-        // var lat = position.coords.latitude;
-        // var long = position.coords.longitude;
-        // var accuracy = position.coords.accuracy;
-        var lat = 31.1048;
-        var long = 77.1734;
-        var accuracy = 8;
-
-        cpos[0] = lat;
-        cpos[1] = long;
-        cpos[2] = accuracy;
+        console.log("running getposition");
+        console.log( "value of a is "+a);
+        console.log("value of s is "+s);
+        console.log(position)
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        var accuracy = position.coords.accuracy;
+        // var lat = 31.1048;
+        // var long = 77.1734;
+        // var accuracy = 8;
+        
+        a=[lat,long,accuracy];
 
         if (marker) {
             map.removeLayer(marker);
         }
-
+        
         if (circle) {
             map.removeLayer(circle);
         }
-
+        
         var greenIcon = L.icon({
             iconUrl: 'current.png',
-
+            
             iconSize: [50, 50],
             iconAnchor: [25, 50],
-
+            
         });
-
+        
         marker = L.marker([lat, long], { icon: greenIcon });
         circle = L.circle([lat, long], { radius: accuracy });
-
+        
         var featureGroup = L.featureGroup([marker, circle]).addTo(map);
-
+        
         map.fitBounds(featureGroup.getBounds());
-
+        
         console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
     }
-
-
-
+    
+    
+    function dest(position) {
+        console.log("value of a is "+a);
+        console.log("value of s is "+s);
+        console.log("running dest");
+        console.log(position)
+        var lat = position[0];
+        var long = position[1];
+        var accuracy = position[2];
+        // var lat = 31.1048;
+        // var long = 77.1734;
+        // var accuracy = 8;
+        
+        cpos[0] = lat;
+        cpos[1] = long;
+        cpos[2] = accuracy;
+        
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        
+        if (circle) {
+            map.removeLayer(circle);
+        }
+        
+        var greenIcon = L.icon({
+            iconUrl: 'current.png',
+            
+            iconSize: [50, 50],
+            iconAnchor: [25, 50],
+            
+        });
+        
+        marker = L.marker([lat, long], { icon: greenIcon });
+        circle = L.circle([lat, long], { radius: accuracy });
+        
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+        
+        map.fitBounds(featureGroup.getBounds());
+        
+        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
+        console.log(cpos[0]);
+        console.log(cpos[1]);
+    }
+    
+    
     function goto(position) {
+        
         // console.log(position)
+        console.log("running goto");
+        console.log("value of a is "+a);
+        console.log("value of s is "+s);
         const event = new Event("start");
         var lat = position[0];
         var long = position[1];
         var accuracy = position[2];
         console.log(cpos[0] + " " + cpos[1]);
-
+        
         if (marker) {
             map.removeLayer(marker);
         }
@@ -183,34 +309,24 @@
         map.fitBounds(featureGroup.getBounds());
 
         console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
-
+        
+        console.log(cpos[0]);
+        console.log(cpos[1]);
         document.addEventListener("start", () => {
             L.Routing.control({
-                waypoints: [L.latLng(position[0], position[1]), L.latLng(cpos[0], cpos[1])]
+                position: 'topleft',
+                waypoints: [L.latLng(s[0], s[1]), L.latLng(a[0], a[1])]
             }).on('routesfound', function (e) {
                 var routes = e.routes;
                 console.log(routes);
             }).addTo(map);
         });
 
-
+        
         document.dispatchEvent(event);
     }
-
-
-
-    var taxiIcon = L.icon({
-        iconUrl: 'destination.png',
-        iconSize: [70, 70]
-    })
-
-
-
-
-
-
-
-
+    
+    
 </script>
 
 </html>
