@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real Time Vehicle Tracking System</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
@@ -27,7 +30,6 @@
         overflow: hidden;
     }
 </style>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 </head>
 
@@ -35,22 +37,35 @@
     <div id="map"></div>
     <div id="map-container" class="container">
         <div class="search-bar">
-            <input class="input" type="text" placeholder="Search...">
-            <div class="bus-icon">
-                <img src="bus-icon.png" alt="Bus Icon">
+            <div class="top-bar">
+                <input class="input" type="text" placeholder="Start Location">
+                <div class="bus-icon">
+                    <img src="bus-icon.png" alt="Bus Icon">
+                </div>
             </div>
-            <div class="line-under-search-bar"></div>
-        </div>
-        <div class="options">
-            <div class="option option1"><img src="home.png" alt="">
-                Home<span class="location"> Mandi, Himachal Pradesh</span>
+            <div class="bottom-bar">
+                <input class="input" type="text" placeholder="Destination Location">
+                <div class="bus-icon">
+                    <img src="bus-icon.png" alt="Bus Icon">
+                </div>
             </div>
-            <div class="option option2"><img src="recent_icon.png" alt="">Chadwick Falls</div>
-            <div class="option option3"><img src="recent_icon.png" alt="">Manali</div>
-            <div class="option option4" onclick="getlocation"><img src="recent_icon.png" alt="">South Himachal</div>
+            <div class="option-container-top">
+                <div class="option" id="home"><img src="home.png" alt="">Home<span class="location"> Shimla, Himachal
+                        Pradesh</span></div>
+                <div class="option" id="chadwick"><img src="recent_icon.png" alt="">Chadwick Falls</div>
+                <div class="option" id="manali"><img src="recent_icon.png" alt="">Manali</div>
+                <div class="option" id="south"><img src="recent_icon.png" alt="">South Himachal</div>
+            </div>
+            <div class="option-container-bottom">
+                <div class="option" id="home"><img src="home.png" alt="">Home<span class="location"> Shimla, Himachal
+                        Pradesh</span></div>
+                <div class="option" id="chadwick"><img src="recent_icon.png" alt="">Chadwick Falls</div>
+                <div class="option" id="manali"><img src="recent_icon.png" alt="">Manali</div>
+                <div class="option" id="south"><img src="recent_icon.png" alt="">South Himachal</div>
+            </div>
         </div>
     </div>
-    <div class="current" id="current"><img src="circle.jpg" alt=""></div>
+    <div class="current" id="current"><img src="circle.png" alt=""></div>
 </body>
 
 
@@ -59,11 +74,11 @@
     var map = L.map("map").setView([28.7041, 77.1025], 6);
 
     //osm layer
-    var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    var tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     });
-    osm.addTo(map);
+    tileLayer.addTo(map);
 
     if (!navigator.geolocation) {
         console.log("Your browser doesn't support geolocation feature!");
@@ -72,19 +87,45 @@
     }
 
 
-    document.getElementById("current").onclick = function() {myFunction()};
+
+
+    document.getElementById("current").onclick = function () {
+        navigator.geolocation.getCurrentPosition(getPosition);
+        myFunction
+    };
+
+
+    document.getElementById("manali").onclick = function () {
+        console.log("clicked");
+        navigator.geolocation.getCurrentPosition(myFunction);
+    };
+
 
     function myFunction() {
-        navigator.geolocation.getCurrentPosition(getPosition);
+        goto([32.2432, 77.1892, 8])
     }
 
     var marker, circle;
 
+    var taxiIcon = L.icon({
+        iconUrl: 'destination.png',
+        iconSize: [70, 70]
+    })
+
+    const cpos = [];
+
     function getPosition(position) {
         // console.log(position)
-        var lat = position.coords.latitude;
-        var long = position.coords.longitude;
-        var accuracy = position.coords.accuracy;
+        // var lat = position.coords.latitude;
+        // var long = position.coords.longitude;
+        // var accuracy = position.coords.accuracy;
+        var lat = 31.1048;
+        var long = 77.1734;
+        var accuracy = 8;
+
+        cpos[0] = lat;
+        cpos[1] = long;
+        cpos[2] = accuracy;
 
         if (marker) {
             map.removeLayer(marker);
@@ -95,29 +136,86 @@
         }
 
         var greenIcon = L.icon({
-            iconUrl: 'location.png',
+            iconUrl: 'current.png',
 
-            iconSize:     [50, 50], 
-            iconAnchor:   [25, 50], 
+            iconSize: [50, 50],
+            iconAnchor: [25, 50],
 
         });
 
-        marker = L.marker([lat, long],{icon: greenIcon});
+        marker = L.marker([lat, long], { icon: greenIcon });
         circle = L.circle([lat, long], { radius: accuracy });
 
         var featureGroup = L.featureGroup([marker, circle]).addTo(map);
 
         map.fitBounds(featureGroup.getBounds());
 
-        console.log(
-            "Your coordinate is: Lat: " +
-            lat +
-            " Long: " +
-            long +
-            " Accuracy: " +
-            accuracy
-        );
+        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
     }
+
+
+
+    function goto(position) {
+        // console.log(position)
+        const event = new Event("start");
+        var lat = position[0];
+        var long = position[1];
+        var accuracy = position[2];
+        console.log(cpos[0] + " " + cpos[1]);
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        if (circle) {
+            map.removeLayer(circle);
+        }
+
+        var greenIcon = L.icon({
+            iconUrl: 'destination.png',
+
+            iconSize: [50, 50],
+            iconAnchor: [25, 50],
+
+        });
+
+        marker = L.marker([lat, long]);
+
+        circle = L.circle([lat, long], { radius: accuracy });
+
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+
+        map.fitBounds(featureGroup.getBounds());
+
+        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
+
+        document.addEventListener("start", () => {
+            L.Routing.control({
+                waypoints: [L.latLng(position[0], position[1]), L.latLng(cpos[0], cpos[1])]
+            }).on('routesfound', function (e) {
+                var routes = e.routes;
+                console.log(routes);
+            }).addTo(map);
+        });
+
+
+        document.dispatchEvent(event);
+    }
+
+
+
+    var taxiIcon = L.icon({
+        iconUrl: 'destination.png',
+        iconSize: [70, 70]
+    })
+
+
+
+
+
+
+
+
 </script>
 
 </html>

@@ -12,30 +12,41 @@ body {
     width: 430px;
     height: 300px;
     position: absolute;
-    top: 23px;
-    right: 31px;
+    left: 3rem;
 
 
 }
 
-.search-bar {
+.search-bar , .top-bar , .bottom-bar {
+    position: relative;
     margin: 20px;
+    width: 25rem;
     padding: 10px;
-    height: 30px;
-    font-size: large;
+    height: 2.2rem;
+    font-size: 1rem;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5rem;
+    font-family: 'Alike', 'Times New Roman', Times, serif;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.top-bar{
+    top:-2rem;
+    right: 2rem;
+}
+
+.bottom-bar{
+    right: 2rem;
+    top: -2.5rem;
 }
 
 .search-bar input{
     width: 80%;
-    height:30px;
-    top: 40px;
-    left: 55px;
+    position: relative;
+    top: 0.25rem;
+    right: -1rem;
     font-family: 'Alike', 'Times New Roman', Times, serif;
-    font-size: 18px;
-    line-height: 37.62px;
+    font-size: 1.5rem;
     letter-spacing: 0em;
     text-align: left;
     border: black;
@@ -45,33 +56,43 @@ body {
 }
 
 
-
-.line-under-search-bar {
-    border-bottom: 2px solid #2E2B2B;
-    margin-top: -3px;
-}
-
-.options {
-    margin: 20px;
-    margin-top: 5px;
-    display: none;
-    align-items: center;
-    font-size: 15px;
-}
-
 .option {
+    position: absolute;
+    display: none;
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 1rem;
+    font-size: large;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+    left: -0.2rem;
 }
+
+#home{
+    padding-right: 8rem;
+    top: 8rem;
+}
+
+#chadwick{
+    padding-right: 16rem;
+    top: 12rem;
+}
+#manali{
+    padding-right: 20rem;
+    top: 16rem;
+}
+#south{
+    padding-right: 16rem;
+    top: 20rem;
+}
+
+
 
 .option:hover {
     background-color: #F1F3F8;
 }
 
-.search-bar:focus-within + .options{
+
+.search-bar:focus-within .option{
     display: block;
 }
 
@@ -79,20 +100,20 @@ body {
     position: relative;
     width: 30px;
     height: 22px;
-    top: 5px;
-    left: 85%;
+    left: 90%;
     transform: translateY(-110%);
 }
 
 .bus-icon img{
     position: relative;
-    width: 80%;
-    height: 80%;
+    top: .3rem;
+    width: 85%;
+    height: 85%;
     display: block;
     
 }
 
-.options .option img{
+.search-bar .option img{
     position: relative;
     padding-right: 15px;
     height: 18px;
@@ -103,19 +124,6 @@ body {
 .location{
     opacity: 60%;
     background: transparent;
-}
-
-.options{
-    font-family: 'Alike', 'Times New Roman', Times, serif;
-    
-}
-
-.leaflet-top {
-    bottom: 50px;
-}
-
-.leaflet-left {
-    right: 50px;
 }
 
 
