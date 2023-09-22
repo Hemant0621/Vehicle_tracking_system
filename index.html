@@ -50,8 +50,10 @@
             <div class="option option4" onclick="getlocation"><img src="recent_icon.png" alt="">South Himachal</div>
         </div>
     </div>
-    <div class="current" id="current"><img src="circle.png" alt=""></div>
+    <div class="current" id="current"><img src="circle.jpg" alt=""></div>
 </body>
+
+
 <script>
     // Map initialization
     var map = L.map("map").setView([28.7041, 77.1025], 6);
@@ -69,7 +71,6 @@
         navigator.geolocation.getCurrentPosition(getPosition);
     }
 
-    object = document.getElementById("current")
 
     document.getElementById("current").onclick = function() {myFunction()};
 
@@ -93,7 +94,15 @@
             map.removeLayer(circle);
         }
 
-        marker = L.marker([lat, long]);
+        var greenIcon = L.icon({
+            iconUrl: 'location.png',
+
+            iconSize:     [50, 50], 
+            iconAnchor:   [25, 50], 
+
+        });
+
+        marker = L.marker([lat, long],{icon: greenIcon});
         circle = L.circle([lat, long], { radius: accuracy });
 
         var featureGroup = L.featureGroup([marker, circle]).addTo(map);
