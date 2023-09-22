@@ -17,7 +17,7 @@ body {
 
 }
 
-.search-bar , .top-bar , .bottom-bar {
+.search-bar , .top-bar , .bottom-bar{
     position: relative;
     margin: 20px;
     width: 25rem;
@@ -55,7 +55,6 @@ body {
     outline: none;
 }
 
-
 .option {
     position: absolute;
     display: none;
@@ -85,14 +84,12 @@ body {
     top: 20rem;
 }
 
-
-
 .option:hover {
     background-color: #F1F3F8;
 }
 
 
-.search-bar:focus-within .option{
+.container:hover .option{
     display: block;
 }
 
